@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA STORE | Online Alışveriş</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f8fc;
+  color: #172033;
+}
+
+header {
+  background: #101d36;
+  color: white;
+  padding: 22px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: #60a5fa;
+}
+
+.search {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  width: 280px;
+  max-width: 100%;
+}
+
+.cart-button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+nav {
+  background: white;
+  padding: 17px 7%;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+nav a {
+  color: #172033;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero {
+  margin: 30px 7%;
+  padding: 65px 35px;
+  border-radius: 18px;
+  background: linear-gradient(120deg,#14213d,#2563eb);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.hero button {
+  background: white;
+  color: #172554;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.section {
+  padding: 20px 7%;
+}
+
+.section h2 {
+  margin-bottom: 25px;
+  font-size: 27px;
+}
+
+.categories {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.categories button {
+  padding: 11px 20px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  background: white;
+  cursor: pointer;
+}
+
+.categories button.active {
+  background: #172554;
+  color: white;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
+  gap: 22px;
+}
+
+.product {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px #00000010;
+  transition: .2s;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+}
+
+.product img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 17px;
+}
+
+.product h3 {
+  margin-bottom: 10px;
+}
+
+.price {
+  color: #2563eb;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.add {
+  background: #172554;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.add:hover {
+  background: #2563eb;
+}
+
+#cart {
+  background: white;
+  padding: 25px;
+  margin: 35px 7%;
+  border-radius: 14px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  gap: 12px;
+}
+
+.remove {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+footer {
+  background: #101d36;
+  color: white;
+  padding: 35px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+@media(max-width:600px) {
+  header {
+    padding: 18px;
+  }
+  nav {
+    padding: 15px;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .hero {
+    margin: 15px;
+    padding: 35px 20px;
+  }
+  .hero h1 {
+    font-size: 30px;
+  }
+  .section {
+    padding: 20px 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">NOVA <span>STORE</span></div>
+
+  <input
+    class="search"
+    id="search"
+    type="text"
+    placeholder="Ürün ara..."
+    oninput="renderProducts()"
+  >
+
+  <button class="cart-button"
+    onclick="document.getElementById('cart').scrollIntoView()">
+    🛒 Sepetim (<span id="count">0</span>)
+  </button>
+</header>
+
+<nav>
+  <a href="#">Ana Sayfa</a>
+  <a href="#products">Ürünler</a>
+  <a href="#categories">Kategoriler</a>
+  <a href="#cart">Sepetim</a>
+</nav>
+
+<section class="hero">
+  <h1>Tarzını Keşfet!</h1>
+  <p>En yeni ürünler, en güzel fiyatlarla NOVA STORE'da.</p>
+  <button onclick="document.getElementById('products').scrollIntoView()">
+    Alışverişe Başla →
+  </button>
+</section>
+
+<section class="section" id="categories">
+  <h2>Kategoriler</h2>
+
+  <div class="categories">
+    <button class="active" onclick="filterCategory('Hepsi',this)">Tümü</button>
+    <button onclick="filterCategory('Giyim',this)">Giyim</button>
+    <button onclick="filterCategory('Ayakkabı',this)">Ayakkabı</button>
+    <button onclick="filterCategory('Aksesuar',this)">Aksesuar</button>
+  </div>
+</section>
+
+<section class="section" id="products">
+  <h2>Öne Çıkan Ürünler</h2>
+  <div class="products" id="productList"></div>
+</section>
+
+<section id="cart">
+  <h2>🛒 Alışveriş Sepetim</h2>
+  <div id="cartItems">Sepetiniz boş.</div>
+  <h3 style="margin-top:20px">
+    Toplam: <span id="total">0</span> TL
+  </h3>
+</section>
+
+<footer>
+  <h2>NOVA STORE</h2>
+  <p style="margin-top:12px">Güvenli ve keyifli alışverişin adresi.</p>
+  <p style="margin-top:15px">© 2026 NOVA STORE. Tüm hakları saklıdır.</p>
+</footer>
+
+<script>
+const products = [
+  {
+    id: 1,
+    name: "Premium Tişört",
+    price: 350,
+    category: "Giyim",
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"
+  },
+  {
+    id: 2,
+    name: "Spor Ayakkabı",
+    price: 1200,
+    category: "Ayakkabı",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+  },
+  {
+    id: 3,
+    name: "Şık Kol Saati",
+    price: 850,
+    category: "Aksesuar",
+    image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500"
+  },
+  {
+    id: 4,
+    name: "Modern Sweatshirt",
+    price: 650,
+    category: "Giyim",
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500"
+  },
+  {
+    id: 5,
+    name: "Günlük Ayakkabı",
+    price: 1450,
+    category: "Ayakkabı",
+    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500"
+  },
+  {
+    id: 6,
+    name: "Modern Gözlük",
+    price: 450,
+    category: "Aksesuar",
+    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500"
+  }
+];
+
+let cart = [];
+let selectedCategory = "Hepsi";
+
+function renderProducts() {
+  const search = document.getElementById("search").value.toLowerCase();
+
+  const filtered = products.filter(product => {
+    return (selectedCategory === "Hepsi" ||
+      product.category === selectedCategory) &&
+      product.name.toLowerCase().includes(search);
+  });
+
+  document.getElementById("productList").innerHTML =
+    filtered.map(product => `
+      <div class="product">
+        <img src="${product.image}" alt="${product.name}">
+        <div class="product-info">
+          <h3>${product.name}</h3>
+          <p>${product.category}</p>
+          <div class="price">${product.price} TL</div>
+          <button class="add" onclick="addToCart(${product.id})">
+            Sepete Ekle
+          </button>
+        </div>
+      </div>
+    `).join("");
+
+  if (filtered.length === 0) {
+    document.getElementById("productList").textContent =
+      "Aradığınız ürün bulunamadı.";
+  }
+}
+
+function filterCategory(category,button) {
+  selectedCategory = category;
+
+  document.querySelectorAll(".categories button")
+    .forEach(btn => btn.classList.remove("active"));
+
+  button.classList.add("active");
+  renderProducts();
+}
+
+function addToCart(id) {
+  const product = products.find(item => item.id === id);
+  cart.push(product);
+  showCart();
+}
+
+function removeFromCart(index) {
+  cart.splice(index,1);
+  showCart();
+}
+
+function showCart() {
+  const items = document.getElementById("cartItems");
+  let total = 0;
+
+  if (cart.length === 0) {
+    items.textContent = "Sepetiniz boş.";
+  } else {
+    items.innerHTML = cart.map((item,index) => {
+      total += item.price;
+
+      return `
+        <div class="cart-item">
+          <span>${item.name} - ${item.price} TL</span>
+          <button class="remove"
+            onclick="removeFromCart(${index})">
+            Sil
+          </button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("count").textContent = cart.length;
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
